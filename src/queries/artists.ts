@@ -2,8 +2,15 @@ import {
   fetchAllArtists,
   fetchArtistByIdOrSlug,
   IApiListQueryParams,
+  IApiListQueryResponse,
+  IArtist,
 } from '@spinamp/spinamp-sdk';
-import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useQuery,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 import {useMemo} from 'react';
 
 import {
@@ -11,16 +18,20 @@ import {
   getNextPageParam,
   getPaginatedTotalCount,
 } from '@/helpers';
-import {queryConfig} from '@/queryClient';
+import {queryConfig} from '@/spinampQueryClient';
 
 import {QueryKeys} from './QueryKeys';
 
-export const useAllArtistsQuery = (params?: IApiListQueryParams) => {
-  const result = useQuery(
+export const useAllArtistsQuery = (
+  params?: IApiListQueryParams,
+  queryOptions: UseQueryOptions<IApiListQueryResponse<IArtist>> = {},
+) => {
+  const result = useQuery<IApiListQueryResponse<IArtist>>(
     QueryKeys.artists(params),
     () => fetchAllArtists(params),
     {
-      ...queryConfig,
+      ...queryOptions,
+      ...queryConfig(),
     },
   );
 
@@ -33,14 +44,16 @@ export const useAllArtistsQuery = (params?: IApiListQueryParams) => {
 export const usePaginatedArtistsQuery = (
   pageSize = 20,
   params?: Pick<IApiListQueryParams, 'filter' | 'orderBy'>,
+  queryOptions: UseInfiniteQueryOptions<IApiListQueryResponse<IArtist>> = {},
 ) => {
-  const result = useInfiniteQuery(
+  const result = useInfiniteQuery<IApiListQueryResponse<IArtist>>(
     QueryKeys.paginatedArtists(params),
     ({pageParam: after}) =>
       fetchAllArtists({...params, first: pageSize, after}),
     {
+      ...queryOptions,
       getNextPageParam,
-      ...queryConfig,
+      ...queryConfig(),
     },
   );
 
@@ -56,15 +69,21 @@ export const usePaginatedArtistsQuery = (
   };
 };
 
-export const useArtistQuery = (idOrSlug: string) => {
-  const result = useQuery(
+export const useArtistQuery = (
+  idOrSlug: string,
+  queryOptions: UseQueryOptions<IArtist | null> = {},
+) => {
+  const result = useQuery<IArtist | null>(
     QueryKeys.artist(idOrSlug),
     () => fetchArtistByIdOrSlug(idOrSlug),
-    {...queryConfig},
+    {
+      ...queryOptions,
+      ...queryConfig(),
+    },
   );
 
   return {
-    track: result.data || null,
+    artist: result.data || null,
     ...result,
   };
 };

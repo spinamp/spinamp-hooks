@@ -1,7 +1,7 @@
 import {QueryClientProvider} from '@tanstack/react-query';
 import React, {FC, ReactNode} from 'react';
 
-import {queryClient, QueryContext} from '@/queryClient';
+import {spinampQueryClient, QueryContext} from '@/spinampQueryClient';
 
 interface IProps {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface IProps {
 
 const SpinampProvider: FC<IProps> = ({children}) => {
   return (
-    <QueryClientProvider client={queryClient} context={QueryContext}>
+    <QueryClientProvider client={spinampQueryClient} context={QueryContext}>
       {children}
     </QueryClientProvider>
   );

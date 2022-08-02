@@ -2,8 +2,15 @@ import {
   fetchAllTracks,
   fetchTrackByIdOrSlug,
   IApiListQueryParams,
+  IApiListQueryResponse,
+  ITrack,
 } from '@spinamp/spinamp-sdk';
-import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useQuery,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 import {useMemo} from 'react';
 
 import {
@@ -11,16 +18,20 @@ import {
   getNextPageParam,
   getPaginatedTotalCount,
 } from '@/helpers';
-import {queryConfig} from '@/queryClient';
+import {queryConfig} from '@/spinampQueryClient';
 
 import {QueryKeys} from './QueryKeys';
 
-export const useAllTracksQuery = (params?: IApiListQueryParams) => {
-  const result = useQuery(
+export const useAllTracksQuery = (
+  params?: IApiListQueryParams,
+  queryOptions: UseQueryOptions<IApiListQueryResponse<ITrack>> = {},
+) => {
+  const result = useQuery<IApiListQueryResponse<ITrack>>(
     QueryKeys.tracks(params),
     () => fetchAllTracks(params),
     {
-      ...queryConfig,
+      ...queryOptions,
+      ...queryConfig(),
     },
   );
 
@@ -33,13 +44,15 @@ export const useAllTracksQuery = (params?: IApiListQueryParams) => {
 export const usePaginatedTracksQuery = (
   pageSize = 20,
   params?: Pick<IApiListQueryParams, 'filter' | 'orderBy'>,
+  queryOptions: UseInfiniteQueryOptions<IApiListQueryResponse<ITrack>> = {},
 ) => {
-  const result = useInfiniteQuery(
+  const result = useInfiniteQuery<IApiListQueryResponse<ITrack>>(
     QueryKeys.paginatedTracks(params),
     ({pageParam: after}) => fetchAllTracks({...params, first: pageSize, after}),
     {
+      ...queryOptions,
       getNextPageParam,
-      ...queryConfig,
+      ...queryConfig(),
     },
   );
 
@@ -55,11 +68,17 @@ export const usePaginatedTracksQuery = (
   };
 };
 
-export const useTrackQuery = (idOrSlug: string) => {
-  const result = useQuery(
+export const useTrackQuery = (
+  idOrSlug: string,
+  queryOptions: UseQueryOptions<ITrack | null> = {},
+) => {
+  const result = useQuery<ITrack | null>(
     QueryKeys.track(idOrSlug),
     () => fetchTrackByIdOrSlug(idOrSlug),
-    {...queryConfig},
+    {
+      ...queryOptions,
+      ...queryConfig(),
+    },
   );
 
   return {

@@ -2,19 +2,21 @@ import {
   fetchCollectorPlaylists,
   fetchFeaturedPlaylists,
   fetchPlaylistById,
+  IPlaylist,
+  ITrack,
 } from '@spinamp/spinamp-sdk';
-import {useQuery} from '@tanstack/react-query';
+import {useQuery, UseQueryOptions} from '@tanstack/react-query';
 
 import {QueryKeys} from '@/queries/QueryKeys';
-import {queryConfig} from '@/queryClient';
+import {queryConfig} from '@/spinampQueryClient';
 
-export const useFeaturedPlaylistsQuery = () => {
-  const result = useQuery(
+export const useFeaturedPlaylistsQuery = (
+  queryOptions: UseQueryOptions<IPlaylist[]> = {},
+) => {
+  const result = useQuery<IPlaylist[]>(
     QueryKeys.featuredPlaylists(),
     () => fetchFeaturedPlaylists(),
-    {
-      ...queryConfig,
-    },
+    {...queryOptions, ...queryConfig()},
   );
 
   return {
@@ -23,12 +25,19 @@ export const useFeaturedPlaylistsQuery = () => {
   };
 };
 
-export const usePlaylistDetailsQuery = (playlistId: string) => {
-  const result = useQuery(
+export const usePlaylistDetailsQuery = (
+  playlistId: string,
+  queryOptions: UseQueryOptions<{
+    playlist: IPlaylist;
+    playlistTracks: ITrack[];
+  }> = {},
+) => {
+  const result = useQuery<{playlist: IPlaylist; playlistTracks: ITrack[]}>(
     QueryKeys.playlistDetails(playlistId),
     () => fetchPlaylistById(playlistId),
     {
-      ...queryConfig,
+      ...queryOptions,
+      ...queryConfig(),
     },
   );
 
@@ -39,12 +48,16 @@ export const usePlaylistDetailsQuery = (playlistId: string) => {
   };
 };
 
-export const useCollectorPlaylistsQuery = (address: string) => {
-  const result = useQuery(
+export const useCollectorPlaylistsQuery = (
+  address: string,
+  queryOptions: UseQueryOptions<IPlaylist[]>,
+) => {
+  const result = useQuery<IPlaylist[]>(
     QueryKeys.collectorPlaylists(address),
     () => fetchCollectorPlaylists(address),
     {
-      ...queryConfig,
+      ...queryOptions,
+      ...queryConfig(),
     },
   );
 

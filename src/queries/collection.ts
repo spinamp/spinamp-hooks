@@ -1,15 +1,22 @@
-import {fetchCollectionForAddress} from '@spinamp/spinamp-sdk';
-import {useQuery} from '@tanstack/react-query';
+import {
+  fetchCollectionForAddress,
+  ICollectionTrack,
+} from '@spinamp/spinamp-sdk';
+import {useQuery, UseQueryOptions} from '@tanstack/react-query';
 
 import {QueryKeys} from '@/queries/QueryKeys';
-import {queryConfig} from '@/queryClient';
+import {queryConfig} from '@/spinampQueryClient';
 
-export const useCollectionQuery = (address: string) => {
-  const result = useQuery(
+export const useCollectionQuery = (
+  address: string,
+  queryOptions: UseQueryOptions<ICollectionTrack[]> = {},
+) => {
+  const result = useQuery<ICollectionTrack[]>(
     QueryKeys.collection(address),
     () => fetchCollectionForAddress(address),
     {
-      ...queryConfig,
+      ...queryOptions,
+      ...queryConfig(),
     },
   );
 
