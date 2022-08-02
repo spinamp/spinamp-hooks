@@ -1,3 +1,3 @@
-# spinamp-pipeline-sdk
+# spinamp-hooks
 
-Set of react hooks for fetching data from spinamp pipeline built on top of react-query.
+Set of react hooks for fetching data from spinamp pipeline built on top of react-query and spinamp-sdk.

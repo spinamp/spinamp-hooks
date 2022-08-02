@@ -1,6 +1,6 @@
 import {
-  fetchAllTracks,
-  fetchTrackByIdOrSlug,
+  fetchAllArtists,
+  fetchArtistByIdOrSlug,
   IApiListQueryParams,
 } from '@spinamp/spinamp-sdk';
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
@@ -11,28 +11,29 @@ import {queryConfig} from '@/queryClient';
 
 import {QueryKeys} from './QueryKeys';
 
-export const useAllTracksQuery = (params?: IApiListQueryParams) => {
+export const useAllArtistsQuery = (params?: IApiListQueryParams) => {
   const result = useQuery(
-    QueryKeys.tracks(params),
-    () => fetchAllTracks(params),
+    QueryKeys.artists(params),
+    () => fetchAllArtists(params),
     {
       ...queryConfig,
     },
   );
 
   return {
-    tracks: result.data?.items || [],
+    artists: result.data?.items || [],
     ...result,
   };
 };
 
-export const usePaginatedTracksQuery = (
+export const usePaginatedArtistsQuery = (
   pageSize = 20,
   params?: Pick<IApiListQueryParams, 'filter' | 'orderBy'>,
 ) => {
   const result = useInfiniteQuery(
-    QueryKeys.paginatedTracks(params),
-    ({pageParam: after}) => fetchAllTracks({...params, first: pageSize, after}),
+    QueryKeys.paginatedArtists(params),
+    ({pageParam: after}) =>
+      fetchAllArtists({...params, first: pageSize, after}),
     {
       getNextPageParam: lastPage =>
         lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : undefined,
@@ -40,22 +41,22 @@ export const usePaginatedTracksQuery = (
     },
   );
 
-  const tracks = useMemo(
+  const artists = useMemo(
     () => flattenPaginatedItems(result.data?.pages),
     [result.data?.pages],
   );
 
   return {
-    tracks,
+    artists,
     totalCount: getPaginatedTotalCount(result.data?.pages),
     ...result,
   };
 };
 
-export const useTrackQuery = (idOrSlug: string) => {
+export const useArtistQuery = (idOrSlug: string) => {
   const result = useQuery(
-    QueryKeys.track(idOrSlug),
-    () => fetchTrackByIdOrSlug(idOrSlug),
+    QueryKeys.artist(idOrSlug),
+    () => fetchArtistByIdOrSlug(idOrSlug),
     {...queryConfig},
   );
 

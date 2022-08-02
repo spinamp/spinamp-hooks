@@ -5,6 +5,6 @@ export const QueryContext = createContext<QueryClient | undefined>(undefined);
 
 export const queryClient = new QueryClient();
 
-export const queryOptions = {
+export const queryConfig = {
   context: QueryContext,
 };
