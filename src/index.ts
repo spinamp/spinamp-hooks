@@ -1,1 +1,4 @@
-export const init = () => console.log("hello!");
+import SpinampProvider from './components/SpinampProvider';
+export * from './queries/tracks';
+
+export {SpinampProvider};
