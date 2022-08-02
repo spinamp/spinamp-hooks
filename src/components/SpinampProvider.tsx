@@ -1,7 +1,7 @@
 import {QueryClientProvider} from '@tanstack/react-query';
 import React, {FC, ReactNode} from 'react';
 
-import {queryClient, QueryContext} from '../queryClient';
+import {queryClient, QueryContext} from '@/queryClient';
 
 interface IProps {
   children: ReactNode;

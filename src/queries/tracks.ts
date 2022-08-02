@@ -5,7 +5,7 @@ import {
 } from '@spinamp/spinamp-sdk';
 import {useQuery} from '@tanstack/react-query';
 
-import {queryOptions} from '../queryClient';
+import {queryOptions} from '@/queryClient';
 
 import {QueryKeys} from './QueryKeys';
 

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
+    "jsx": "react",
     "declaration": true,
     "outDir": "./lib",
     "esModuleInterop": true,
