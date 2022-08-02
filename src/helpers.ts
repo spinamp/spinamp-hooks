@@ -22,3 +22,6 @@ export const getPaginatedTotalCount = (
 
   return pages[pages.length - 1].totalCount;
 };
+
+export const getNextPageParam = (lastPage: IApiListQueryResponse<unknown>) =>
+  lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : undefined;

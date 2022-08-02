@@ -6,7 +6,11 @@ import {
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {useMemo} from 'react';
 
-import {flattenPaginatedItems, getPaginatedTotalCount} from '@/helpers';
+import {
+  flattenPaginatedItems,
+  getNextPageParam,
+  getPaginatedTotalCount,
+} from '@/helpers';
 import {queryConfig} from '@/queryClient';
 
 import {QueryKeys} from './QueryKeys';
@@ -34,8 +38,7 @@ export const usePaginatedTracksQuery = (
     QueryKeys.paginatedTracks(params),
     ({pageParam: after}) => fetchAllTracks({...params, first: pageSize, after}),
     {
-      getNextPageParam: lastPage =>
-        lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : undefined,
+      getNextPageParam,
       ...queryConfig,
     },
   );
