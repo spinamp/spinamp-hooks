@@ -9,3 +9,5 @@ export * from '@/queries/tracks';
 export * from '@/queries/playlists';
 export * from '@/queries/platforms';
 export * from '@/queries/collection';
+
+export * from '@spinamp/spinamp-sdk';

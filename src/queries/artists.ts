@@ -1,9 +1,10 @@
 import {
   fetchAllArtists,
-  fetchArtistByIdOrSlug,
+  fetchArtistWithTracks,
   IApiListQueryParams,
   IApiListQueryResponse,
   IArtist,
+  ITrack,
 } from '@spinamp/spinamp-sdk';
 import {
   useInfiniteQuery,
@@ -71,11 +72,14 @@ export const usePaginatedArtistsQuery = (
 
 export const useArtistQuery = (
   idOrSlug: string,
-  queryOptions: UseQueryOptions<IArtist | null> = {},
+  queryOptions: UseQueryOptions<{
+    artist: IArtist | null;
+    tracks: ITrack[];
+  }> = {},
 ) => {
-  const result = useQuery<IArtist | null>(
+  const result = useQuery<{artist: IArtist | null; tracks: ITrack[]}>(
     QueryKeys.artist(idOrSlug),
-    () => fetchArtistByIdOrSlug(idOrSlug),
+    () => fetchArtistWithTracks(idOrSlug),
     {
       ...queryOptions,
       ...queryConfig(),
@@ -83,7 +87,8 @@ export const useArtistQuery = (
   );
 
   return {
-    artist: result.data || null,
+    artist: result.data?.artist || null,
+    tracks: result.data?.tracks || [],
     ...result,
   };
 };
