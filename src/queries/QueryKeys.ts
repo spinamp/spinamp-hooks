@@ -22,6 +22,17 @@ export const QueryKeys = {
 
   collection: (address: string) => [getPrefixedKey('Collection'), address],
 
+  trackNfts: (trackId: string) => [getPrefixedKey('TrackNfts'), trackId],
+  trackNftsOwners: (trackId: string) => [
+    getPrefixedKey('TrackNftsOwners'),
+    trackId,
+  ],
+  artistNfts: (artistId: string) => [getPrefixedKey('ArtistNfts'), artistId],
+  artistNftsOwners: (artistId: string) => [
+    getPrefixedKey('ArtistNftsOwners'),
+    artistId,
+  ],
+
   featuredPlaylists: () => [getPrefixedKey('FeaturedPlaylists')],
   playlistDetails: (playlistId: string) => [
     getPrefixedKey('PlaylistDetails'),
