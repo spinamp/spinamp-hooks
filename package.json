@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/spinamp/spinamp-hooks",
   "dependencies": {
-    "@spinamp/spinamp-sdk": "^0.0.4",
+    "@spinamp/spinamp-sdk": "^0.0.5",
     "@tanstack/react-query": "^4.0.10"
   },
   "devDependencies": {

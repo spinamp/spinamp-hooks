@@ -76,7 +76,7 @@ export const useCollectorPlaylistsQuery = (
 };
 
 interface ICreatePlaylistPayload {
-  playlist: IPlaylist;
+  playlist: Omit<IPlaylist, 'id'>;
   signer: Signer;
 }
 
