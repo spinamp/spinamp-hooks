@@ -1,11 +1,19 @@
 import {
+  createPlaylist,
   fetchCollectorPlaylists,
   fetchFeaturedPlaylists,
   fetchPlaylistById,
   IPlaylist,
   ITrack,
+  updatePlaylist,
 } from '@spinamp/spinamp-sdk';
-import {useQuery, UseQueryOptions} from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
+} from '@tanstack/react-query';
+import {Signer} from 'ethers';
 
 import {QueryKeys} from '@/queries/QueryKeys';
 import {queryConfig} from '@/spinampQueryClient';
@@ -65,4 +73,49 @@ export const useCollectorPlaylistsQuery = (
     playlists: result.data || [],
     ...result,
   };
+};
+
+interface ICreatePlaylistPayload {
+  playlist: IPlaylist;
+  signer: Signer;
+}
+
+export const useCreatePlaylistMutation = (
+  mutationOptions: UseMutationOptions<
+    {id: string},
+    unknown,
+    ICreatePlaylistPayload
+  > = {},
+) => {
+  return useMutation<{id: string}, unknown, ICreatePlaylistPayload>(
+    ({playlist, signer}: ICreatePlaylistPayload) =>
+      createPlaylist(playlist, signer),
+    {
+      ...mutationOptions,
+      ...queryConfig(),
+    },
+  );
+};
+
+interface IUpdatePlaylistPayload {
+  id: string;
+  playlist: Partial<IPlaylist>;
+  signer: Signer;
+}
+
+export const useUpdatePlaylistMutation = (
+  mutationOptions: UseMutationOptions<
+    {id: string},
+    unknown,
+    IUpdatePlaylistPayload
+  > = {},
+) => {
+  return useMutation<{id: string}, unknown, IUpdatePlaylistPayload>(
+    ({id, playlist, signer}: IUpdatePlaylistPayload) =>
+      updatePlaylist(id, playlist, signer),
+    {
+      ...mutationOptions,
+      ...queryConfig(),
+    },
+  );
 };
