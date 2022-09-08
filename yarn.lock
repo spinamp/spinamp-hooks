@@ -948,10 +948,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@spinamp/spinamp-sdk@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@spinamp/spinamp-sdk/-/spinamp-sdk-0.0.5.tgz#155537df0d54f300ae10dfadc5c6399ebc0e29b6"
-  integrity sha512-nrtJRFDXFXfgRO9/4hZ6PoltpQrhE1+YBGm7l//PLfz0j48I2Eh9uMuXP8lgjJRdFycmem6mLE52ZNULTNamAQ==
+"@spinamp/spinamp-sdk@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@spinamp/spinamp-sdk/-/spinamp-sdk-0.0.7.tgz#0d8fe2c2f5b200daa0a1cdfbec1f96804dd03814"
+  integrity sha512-1StrGA5C3Ug/oMYT6jiHUz6SJwo/XEWMNM7b1sN6/D6vJVRD280eHADXg0t6aJQpCgdgFiDUZmn2Xv2IDcyj7A==
   dependencies:
     graphql "^16.5.0"
     graphql-request "^4.3.0"
