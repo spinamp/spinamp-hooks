@@ -1,6 +1,6 @@
 {
   "name": "@spinamp/spinamp-hooks",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Set of react hooks for fetching data from spinamp pipeline built on top of react-query and spinamp-sdk.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/spinamp/spinamp-hooks",
   "dependencies": {
-    "@spinamp/spinamp-sdk": "^0.0.7",
+    "@spinamp/spinamp-sdk": "^0.0.8",
     "@tanstack/react-query": "^4.0.10"
   },
   "devDependencies": {
